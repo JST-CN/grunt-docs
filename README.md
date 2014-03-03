@@ -64,8 +64,11 @@ Grunt.js中文社区是一个开源项目，由网友创建并维护。
 
 + 请查看[贡献](contributing.html)文档来了解如何作出贡献。
 
+> 说明：此REPO用来作为gruntjs.org的中文官网REPO的数据源头，文件命名规则同[gruntjs.com](http://github.com/gruntjs/grunt-docs). 在有文件更新的情况下，请重新build网站并在[gruntjs.org](http://github.com/JST-CN/gruntjs.org)的REPO中进行deploy.
+
 ## 更新日志
 
++ 2014-3-3 从原REPO中将文档部分进行分离，为了与gruntjs.org的REPO配合搭建GRUNT中文网站。
 + 2013-8-29 文档和API整体校对完成
 + 2013-8-7  新版页面上线；
 + 2013-6-10 完成编译构建，启用gruntjs.org域名；
