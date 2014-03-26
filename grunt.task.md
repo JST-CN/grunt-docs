@@ -34,7 +34,7 @@
 
 #### 任务函数
 
-如果传递一个`description`和1taskFunction`，每当任务运行时对应的指定的函数都会执行。此外, 当运行`grunt --help`时，指定的描述(description参数)也会显示出来。任务特性的属性和方法在任务内部作为`this`对象的属性使用也是有效的。任务函数可以返回一个`false`来表示任务失败。
+如果传递一个`description`和一个`taskFunction`，每当任务运行时对应的指定的函数都会执行。此外, 当运行`grunt --help`时，指定的描述(description参数)也会显示出来。任务特性的属性和方法在任务内部作为`this`对象的属性使用也是有效的。任务函数可以返回一个`false`来表示任务失败。
 
 注意`grunt.task.registerMultiTask`方法，可以用于定义一个特殊类型的任务，也就是我们所说的"多任务"，具体的信息后面再解释。
 
