@@ -50,7 +50,7 @@ Grunt中所有的方法和属性都是通过传递到你的[Gruntfile](http://gr
 
 检索命令行选项的值，例如`debug`。注意对于每个命令行选项，都有反例选项，例如`no-debug`。
 
-	grunt.options(optionName)
+	grunt.option(optionName)
 	
 ### 杂项(Miscellaneous)
 
