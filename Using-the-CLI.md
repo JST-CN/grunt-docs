@@ -1,51 +1,63 @@
-The `grunt` command-line interface comes with a series of options. Use `grunt -h` from your terminal to show these options.
+`grunt`命令行接口提供了一系列选项。你可以在你的终端中使用`grunt -h`查看这个选项。
 
 ### --help, -h
-Display help text
+
+显示帮助文本。
 
 ### --base, -b
-Specify an alternate base path. By default, all file paths are relative to the `Gruntfile`.
 
-Alternative to `grunt.file.setBase(...)`
+指定一个替代的基本路径。默认情况下，所有文件路径都是相对于`Gruntfile`的。
+
+替代方案`grunt.file.setBase(...)`。
 
 ### --no-color
-Disable colored output.
+
+禁用彩色输出。
 
 ### --gruntfile
-Specify an alternate `Gruntfile`.
 
-By default, grunt looks in the current or parent directories for the nearest `Gruntfile.js` or `Gruntfile.coffee` file.
+指定替代的`Gruntfile`。
+
+默认情况下，grunt会从当前目录或者父目录中寻找最近的`Gruntfile.js`或者`Gruntfile.coffee`文件。
 
 ### --debug, -d
-Enable debugging mode for tasks that support it.
+
+对支持调试的任务启用调试模式。
 
 ### --stack
-Print a stack trace when exiting with a warning or fatal error.
+
+因警告或者致命错误退出时打印堆栈跟踪信息。
 
 ### --force, -f
-A way to force your way past warnings.
 
-Want a suggestion? Don't use this option, fix your code.
+一种强制跳过警告信息的方式。
+
+如果像从警告中得到提示，就不要使用这个选项，可以根据提示信息修正代码。
 
 ### --tasks
-Additional directory paths to scan for task and "extra" files.
 
-Alternative to `grunt.loadTasks(...)`
+扫描任务和“额外”文件的额外目录。
+
+替代方案`grunt.loadTasks(...)`。
 
 ### --npm
-Npm-installed grunt plugins to scan for task and "extra" files.
 
-Alternative to `grunt.loadNpmTasks(...)`
+使用npm安装的扫描任务和“额外”文件的grunt插件。
+
+替代方案`grunt.loadNpmTasks(...)`。
 
 ### --no-write
-Disable writing files (dry run).
+
+禁用写文件操作（可用于演示）。
 
 ### --verbose, -v
 
-Verbose mode. A lot more information output.
+冗长模式（Verbose mode）。会输出跟多的信息。
 
 ### --version, -V
-Print the grunt version. Combine with --verbose for more info.
+
+打印grunt版本。结合--verbose可以获取更多信息。
 
 ### --completion
-Output shell auto-completion rules. See the grunt-cli documentation for more information.
+
+输出自动完成的shell规则。更多信息参考grunt-cli相关的文档。
