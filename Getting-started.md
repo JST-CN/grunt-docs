@@ -1,48 +1,48 @@
 # 新手上路
 
-Grunt和Grunt的插件都是通过[Node.js](http://nodejs.org/)的包管理器[npm](https://npmjs.org/)来安装和管理的。
+Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[npm](https://npmjs.org/)来安装和管理。
 
-*Grunt 0.4.x要求Node.js的版本`>=0.8.0`(也就是0.8.0及以上版本的Node.js才能很好的运行Grunt)。*
-
-> 安装Grunt之前，可以在命令行中运行`node -v`查看你的Node.js版本。
+*Grunt 0.4.x要求Node.js的版本`>=0.8.0`(也就是0.8.0及以上版本的Node.js才能很好的运行Grunt)。奇数版本的Node.js通常被认为是不稳定的开发版本。*
 
 ## 安装CLI
 
-**如果你是从Grunt 0.3升级而来的，请查看[Grunt 0.3的说明](http://gruntjs.com/getting-started#grunt-0.3-notes)**。(在这篇文档的底部)
+**如果你要从Grunt 0.3升级，请查看[Grunt 0.3升级说明](http://gruntjs.com/upgrading-from-0.3-to-0.4#grunt-0.3-notes)。**
 
-为了方便使用Grunt，你应该在全局范围内安装Grunt的命令行接口(CLI)。要做到这一点，你可能需要使用sudo(OS X，*nix，BSD等平台中)权限或者作为超级管理员(Windows平台)来运行shell命令。
+为了便于开始，有需要全局安装Grunt的命令行接口(CLI)。你可能需要使用sudo权限（OSX，*nix，BSD系列的系统等等），或者你要以超级管理员的身份运行shell命令（Windows系统）才能做到这一点。
 
 	npm install -g grunt-cli
+	
+这条命令将会把`grunt`命令植入到你的系统路径中，这样你就可以在你机器上的任意目录中运行`grunt`。
 
-这条命令将会把`grunt`命令植入到你的系统路径中，这样就允许你从任意目录来运行它(定位到任意目录运行`grunt`命令)。
-
-注意，安装`grunt-cli`并不等于安装了grunt任务运行器！Grunt CLI的工作很简单：在`Gruntfile`所在目录调用运行已经安装好的相应版本的Grunt。这就意味着可以在同一台机器上同时安装多个版本的Grunt。
+注意，安装`grunt-cli`并不等于安装了Grunt任务运行器！而Grunt CLI的工作很简单：运行已配置好的`Gruntfile`中指定版本的Grunt。它还允许在同一机器上同时安装多个版本的Grunt。
 
 ## CLI如何工作
 
-每次运行`grunt`时，它都会使用node的`require()`系统查找本地已安装好的grunt。正因为如此，你可以从你项目的任意子目录运行`grunt`。
+每次运行`grunt`命令时，它会使用Node的`require()`系统查找本地已安装好的Grunt。正因为这样，你才可以从项目的任意子目录中运行`grunt`命令。
 
-如果找到本地已经安装好的Grunt，CLI就会加载这个本地安装好的Grunt库，然后应用你项目中的`Gruntfile`中的配置(这个文件用于配置项目中使用的任务，Grunt也正是根据这个文件中的配置来处理相应的任务)，并执行你所指定的所有任务。
+运行`grunt`命令时，如果找到本地已安装的Grunt，CLI就会加载本地安装的Grunt库，然后应用定义在你的`Gruntifile`中的配置信息，同时执行你要求它运行的所有任务。
 
 *想要真正的了解这里发生了什么，[可以阅读源码](https://github。com/gruntjs/grunt-cli/blob/master/bin/grunt)。这份代码很短。*
 
-## 用一个现有的Grunt项目进行工作
+## 使用一个现有的Grunt项目
 
-假设已经安装好Grunt CLI并且项目也已经使用一个`package.json`和一个`Gruntfile`文件配置好了，那么接下来用Grunt进行工作就非常容易了：
+假设你已经成功安装了Grunt CLI，并且也已经为你的项目配置好了`package.json`和`Gruntfile`，那么开始使用Grunt是非常容易的：
 
-1. 进入到项目的根目录(在命令行面板定位到项目根目录。在windows系统下，也可以进入项目根目录的文件夹后，按Shift+鼠标右键，打开右键菜单，选择“在此处打开命令窗口(W)”)。
-2. 运行`npm install`安装项目相关依赖(插件，Grunt内置任务等依赖)。
-3. 使用`grunt`(命令)运行Grunt。
+1. 首先定位到项目的跟目录（译注：通常`package.json`和`Gruntfile`建议存放在项目的根目录）。
+2. 然后使用`npm install`命令安装项目依赖（译注：通常在`package.json`配置，推荐这么做）。
+3. 最后使用`grunt`命令运行Grunt。
 
-就是这么简单。已经安装的Grunt任务可以通过运行`grunt --help`列出来，但是通常最好还是先查看一下项目的文档。
+> 译注：可以在终端/cmd面板中使用命令行进入项目目录，对于Windows系统也可以进入项目(根)目录之后按住Shift，按下鼠标右键，在右键菜单中选择“在此处打开命令窗口(W)”。
+
+这就是全部操作。安装好的Grunt任务可以使用`grunt --help`命令列出来，但是通常情况下最好先查看一下文档。
 
 ## 准备一个新的Grunt项目
 
-一个典型的配置过程通常只涉及到两个文件：`package.json`和`Gruntfile`。
+典型的设置就是为你的项目添加两个文件：`package.json`和`Gruntfile`。
 
-**package.json**：这个文件被用来存储已经作为npm模块发布的项目元数据(也就是依赖模块)。你将在这个文件中列出你的项目所[依赖](https://npmjs.org/doc/json.html#devDependencies)的Grunt(通常我们在这里配置Grunt版本)和Grunt插件(相应版本的插件)。
+**package.json**：这个文件被用来使用npm存储作为npm模块发布的项目元数据。你的项目需要使用的Grunt和Grunt插件都应该列在这个文件的[开发依赖](https://npmjs.org/doc/json.html#devDependencies)中。
 
-**Gruntfile**：通常这个文件被命名为`Gruntfile.js`或者`Gruntfile.coffee`，它用于配置或者定义Grunt任务和加载Grunt插件。
+**Gruntfile**：这个文件通常被命名为`Gruntfile.js`或者`Gruntfile.coffee`，它用来配置或者定义任务，以及加载Grunt插件。
 
 ### package.json
 
