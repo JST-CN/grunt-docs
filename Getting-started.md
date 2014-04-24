@@ -46,32 +46,35 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 
 ### package.json
 
-`package.json`与`Gruntfile`相邻，它们都应该归属于项目的根目录中，并且应该与项目的源代码一起被提交。在上述目录(`package.json`所在目录)中运行`npm install`将依据`package.json`文件中所列出的每个依赖来自动安装适当版本的依赖。
+`package.json`文件应该存放在项目的根目录中，与`Gruntfile`相邻，并且它应该与项目的源代码一起提交到服务器。在同一目录中运行`npm install`时，它会安装在`package.json`列出的每个依赖的正确版本。
 
-这里有一些为项目创建`package.json`文件的方式：
+这里有好几种方式可以为你的项目创建一个`package.json`文件：
 
-+ 大多数的[grunt-init](http://gruntjs.com/project-scaffolding)模板都会自动创建一个项目特定的`package.json`文件。
+- 大多数的[grunt-init](http://gruntjs.com/project-scaffolding)都会自动创建一个项目特定的`package.json`文件。
+- 也可以使用[npm init](https://npmjs.org/doc/init.html)创建一个基础的`package.json`文件。
+- 也可以以下面的示例为蓝本，然后按照[规范](https://npmjs.org/doc/json.html)按需扩展。
 
-+ [npm init](https://npmjs.org/doc/init.html)命令会自动创建一个基本的`package.json`文件。
+======
 
-+ 从下面的例子开始并根据[规范](https://npmjs.org/doc/json.html)来按需扩展。
-*****
-	{
-		"name": "my-project-name", // 项目名称
-		"version": "0.1.0", // 项目版本
-		"devDependencies": { // 项目依赖
-			"grunt": "~0.4.1", // Grunt库
-			"grunt-contrib-jshint": "~0.6.0", //以下三个是Grunt内置任务
-			"grunt-contrib-nodeunit": "~0.2.0",
-			"grunt-contrib-uglify": "~0.2.2"
-		}
-	}
+    {
+        "name": "my-project-name", 
+        "version": "0.1.0", 
+        "devDependencies": { 
+            "grunt": "~0.4.1",
+            "grunt-contrib-jshint": "~0.6.0",
+            "grunt-contrib-nodeunit": "~0.2.0",
+            "grunt-contrib-uglify": "~0.2.2"
+        }
+    }
 
-> 原文中注释仅作说明，使用时请自行检查编辑。其他地方如有雷同，参考这条提示。
+> 译注：更多关于`package.json`文件格式请自行参考规范。
 
 #### 安装Grunt和grunt插件
 
-添加Grunt和Grunt插件到一个现有的`package.json`中最简单的方式就是使用`npm install <module> --save-dev`命令。这不仅会在本地安装`<module>`，它还会使用一个[波浪形字符的版本范围](https://npmjs.org/doc/json.html#Tilde-Version-Ranges)自动将所安装的`<module>`添加到项目[依赖](https://npmjs.org/doc/json.html#devDependencies)中。
+为项目中已有的`package.json`文件添加Grunt和Grunt插件最简单的方式就是使用`npm install <module> --save-dev`命令。这不仅会在本地安装指定的`<module>`，它还会自动将这个模块作为依赖添加到`package.json`文件的devDependencies部分，添加进去的时候会使用一个[波浪形字符形式的版本范围标识](https://npmjs.org/doc/misc/semver.html#Ranges)。
+
+> 例如：
+> `"grunt-contrib-xxx": "~0.2.6"`
 
 例如使用下面的命令将会安装最新版的Grunt到你的项目中，并自动将它添加到你的项目依赖中：
 
