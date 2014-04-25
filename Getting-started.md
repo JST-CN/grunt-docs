@@ -76,26 +76,28 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 > 例如：
 > `"grunt-contrib-xxx": "~0.2.6"`
 
-例如使用下面的命令将会安装最新版的Grunt到你的项目中，并自动将它添加到你的项目依赖中：
+例如下面这条命令将会安装最新版本的Grunt到你的项目目录中，同时也会将它添加为你的devDependencies：
 
-	npm install grunt --save-dev
+    npm install grunt --save-dev
+    
+同样的方式也可以用于Grunt插件和其他Node模块。当完成操作之后，确保将这个更新过的`package.json`文件与项目源代码一起提交。
 
-上述命令也可以用于Grunt插件和其他的node模块的安装。当完成操作后请确保更新后的`package.json`文件也要与你的项目一起提交。
+> 译注：多人协作的时候这一点非常重要。
 
 ### Gruntfile
 
-`Gruntfile.js`或者`Gruntfile.coffee`文件都是归属于你项目根目录中的一个有效的JavaScript或者CoffeeScript文件(和`package.json`文件一样都在根目录中)，并且它(Gruntfile)也应该与你的项目源文件一起提交。
+`Gruntfile.js`或者`Gruntfile.coffee`文件就是一个有效的JavaScript或者CoffeeScript文件，并且它应该存放在项目的根目录中，紧邻`package.json`文件，同时它也应该与项目的源码一起提交到服务器。
 
-一个Gruntfile由下面几部分组成：
+`Gruntfile`由以下几个部分组成：
 
-+ "wrapper"函数(包装函数)
-+ 项目和任务配置
-+ 加载的Grunt插件和任务
-+ 自定义任务
+- “包装”函数
+- 项目和任务配置
+- Grunt插件和任务加载
+- 自定义任务
 
 #### 一个Gruntfile示例
 
-在下面的Gruntfile中，项目的元数据会从项目的`package.json`文件中导入到grunt配置中，同时[grunt-contrib-uglify](http://github.com/gruntjs/grunt-contrib-uglify)插件的`uglify`任务被配置用于压缩一个源文件，同时使用该元数据(导入的元数据)动态的生成一个标语(banner)注释。在命令行运行`grunt`时默认会运行`uglify`任务。
+在下面这个`Gruntfile`中，我们从`package.json`文件中导入了项目的元数据到Grunt配置中，这个[grunt-contrib-uglify](http://github.com/gruntjs/grunt-contrib-uglify)插件的`uglify`任务配置用来压缩源代码文件并使用导入的元数据动态生成一个横幅注释。当我们在命令行中运行`grunt`时，`uglify`任务会默认运行。
 
 	module.exports = function(grunt){
 
@@ -120,11 +122,11 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 		grunt.registerTask('default', ['uglify']);
 	}
 
-现在你已经看到到了一个完整的Gruntfile，下面让我们来看看它的各个组成部分：
+至此，你看到的就是一个完整的`Gruntfile`文件，接下来让我们一起看看它的组成部分：
 
-#### "wrapper"函数
+#### "wrapper"（包装）函数
 
-每个Gruntfile(和Grunt插件)都使用这个基本格式，并且所有你的Grunt代码都必须指定在这个函数里面：
+每个`Gruntfile`（以及Grunt插件）就是使用这个基本的格式，并且你所有的Grunt配置代码都必须指定在这个函数内部：
 
 	module.exports = function(grunt) {
 		// 在这里处理Grunt相关的事情
@@ -132,13 +134,13 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 
 #### 项目和任务配置
 
-大多数Grunt任务所依赖的配置数据都被定义在传递给[grunt.initConfig](http://gruntjs.com/grunt#grunt.initconfig)方法的一个对象中。
+大多数任务都依赖于传递给[grunt.initConfig](http://gruntjs.com/grunt#grunt.initconfig)方法的对象中定义的配置数据。
 
-在这个例子中，`grunt.file.readJSON('package.json')`会把存储在`package.json`中的JSON元数据导入到Grunt配置中。由于`<% %>`模板字符串可以引用任意的配置属性，因此可以通过这种方式来指定诸如文件路径和文件列表类型的配置数据，从而减少一些重复的工作(比如我们通常需要通过复制粘贴的方式来在不同的地方引用同一属性, 使用`<% %>`的方式可以简单的理解为将某些特定的数据存储在变量中，然后在其他地方像使用变量一样就可以使用这些数据属性)。
+在下面的例子中，`grunt.file.readJSON('package.json')`将存储在`package.json`中的JSON元数据导入到了Grunt配置中。因为`<% %>`模板字符串可以引入任意配置属性，像文件路径和文件列表这类配置数据都可以使用这种方式指定，已减少重复。
 
-你可以在这个配置对象中(传递给initConfig()方法的对象)存储任意的数据，只要它不与你任务配置所需的属性冲突，否则会被忽略。此外，由于这本身就是JavaScript，你不仅限于使用JSON；你可以在这里使用任意的有效的JS代码。如果有必要，你甚至可以以编程的方式生成配置。
+你还可以在配置对象内存储任意数据，只要它不与你的任务中需要的属性冲突，否则会被忽略。此外，由于这个文件本身就是JavaScript，因此你不仅限于可以使用JSON，实际上在这里可以使用任意有效的JS代码。必要的情况下甚至可以以编程的方式动态生成配置信息。
 
-与大多数任务一样，[grunt-contrib-uglify](http://github.com/gruntjs/grunt-contrib-uglify)插件的`uglify`任务要求它的配置被指定在一个同名属性中。在这里有一个例子, 我们指定了一个`banner`选项(用于在文件顶部生成一个注释)，紧接着是一个单一的名为`build`的uglify目标，用于将一个js文件压缩为一个目标文件(比如将src目录`jquery-1.9.0.js`压缩为`jquery-1.9.0.min.js`然后存储到dest目录)。
+与大多数任务一样，[grunt-contrib-uglify](http://github.com/gruntjs/grunt-contrib-uglify)插件 的`uglify`任务期望将它的配置信息指定在一个同名属性之中。下面的自立中，我们指定了一个`banner`选项，在旁边还定义了一个名为`build`的单一uglify目标，用于压缩源代码文件为目标文件。
 
 	// 项目配置
 	grunt.initConfig({
@@ -156,7 +158,7 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 
 #### 加载grunt插件和任务
 
-许多常用的任务像[concatenation](https://github.com/gruntjs/grunt-contrib-concat)，[minification](http://github.com/gruntjs/grunt-contrib-uglify)和[linting](https://github.com/gruntjs/grunt-contrib-jshint)都被作为[grunt插件](https://github.com/gruntjs)来使用。只要一个插件被作为一个依赖指定在项目的`package.json`文件中，并且已经通过`npm install`安装好，都可以在你的`Gruntfile`文件中使用下面这个简单的命令启用它(所依赖的任务)。
+许多常用任务，比如[concatenation](https://github.com/gruntjs/grunt-contrib-concat)，[minification](http://github.com/gruntjs/grunt-contrib-uglify)和[linting](https://github.com/gruntjs/grunt-contrib-jshint)都可以以常见的方式启用。只要一个常见被作为依赖定义在`package.json`文件中，并且已经通过`npm install`命令安装好，那么就可以在你的`Gruntfile`使用一条简单的命令来启用它：
 
 	// 加载提供"uglify"任务的插件
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -165,12 +167,12 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 
 #### 自定义任务
 
-你可以通过定义一个`default`任务来配置Grunt，让它默认运行一个或者多个任务。在下面的例子中，在命令行中运行`grunt`而不指定特定的任务将自动运行`uglify`任务。这个功能与显示的运行`grunt uglify`或者等价的`grunt default`一样。你可以在任务参数数组中指定任意数量的任务(这些任务可以带参数，也可以不带参数)。
+可以通过定义一个`default`任务的方式配置Grunt默认运行一个或者多个任务。在下面的例子中，在命令行中运行`grunt`而不指定任务时默认会运行`uglify`任务。这一功能与显示地运行`grunt uglify`甚至是`grunt defult`一样。其实在这个数组中可以指定任意数量的任务（带参数或者不带参数的都可以）。
 
 	// 默认任务
 	grunt.registerTask('default', ['uglify']);
-
-如果你的项目所需的任务没有对应的Grunt插件提供相应的功能，你可以在`Gruntfile`内定义自定义的任务。例如，下面的Gruntfile就定义了一个完整的自定义的`default`任务，它甚至没有利用任务配置(没有使用grunt.initConfig()方法)：
+	
+如果你的项目需要使用的任务没有可用的Grunt插件，你可以在`Gruntfile`内定义自定义任务。例如，下面这个`Gruntfile`中就定义了一个完整的自定义的`default`任务，甚至都没有使用任务配置：
 
 	module.exports = function(grunt) {
 		// 一个非常基础的default任务
@@ -178,25 +180,15 @@ Grunt和Grunt插件都可以通过[Node.js](http://nodejs.org/)的包管理器[n
 			grunt.log.write('Logging some stuff...').ok();
 		});
 	};
-
-自定义的项目特定的任务可以不定义在Gruntfile中；它们可以定义在一个外部`.js`文件中，然后通过[grunt.loadTasks](http://gruntjs.com/grunt#grunt.loadtasks)方法来加载。
+	
+自定义项目特定的任务可以不定义在`Gruntfile`中；它们可以定义在外部的`.js`文件中，并且也可以使用[grunt.loadTasks](http://gruntjs.com/grunt#grunt.loadtasks)方法来加载。
 
 ## 扩展阅读
 
-+ [安装Grunt](installing_grunt.html)指南中有关于安装特定版本的，发布的或者开发中版本的Grunt和Grunt-cli的详细信息。
++ [安装Grunt](installing_grunt.html)指南中有关于安装特定版本的，发布版本的或者开发中版本的Grunt和grunt cli的更多详细信息。
 
-+ [配置任务](configuring_tasks.html)指南中有对于如何在Gruntfile中配置任务，目标，选项和文件的详细解释，还有模板，匹配模式和导入外部数据相关的说明。
++ [配置任务](configuring_tasks.html)指南中详细解释了如何在`Gruntfile`内配置任务，目标，选项和文件；此外还解释了模板，匹配模式和导入外部数据的相关信息。
 
-+ [创建任务](creating_tasks.html)指南列出了Grunt任务类型之间的不同，还展示了许多实例任务和配置。
++ [创建任务](creating_tasks.html)指南列出了Grunt任务类型之间的区别，还展示了许多任务实例和配置。
 
-+ 对于关于编写自定义任务或者Grunt插件的更多信息，请参考[开发者文档](grunt.html)。
-
-## Grunt 0.3说明
-
-如果你从Grunt 0.3升级而来的，请确保先卸载全局的`grunt`(使用下面的命令)：
-
-	npm uninstall -g grunt
-
-*上面这些说明文档是针对Grunt 0.4.x编写的，但仍然适用于Grunt 0.3.x。只是注意0.3.x版本中的插件名称和任务配置选项可能与上面的"Gruntfile"中所展示的不同*。
-
-*对于0.3.x版本的Grunt, Grunfile名为`grunt.js`。*
++ 关于如何编写自定义任务或者Grunt插件的更多信息请参考[开发者文档](http://gruntjs.com/grunt)。
