@@ -1,28 +1,28 @@
 # 配置任务
 
-这个指南解释了如何使用`Gruntfile`来为你的项目配置任务。如果你还不知道Gruntfile是什么，请先阅读[新手上路](getting_started.html)指南并参考[Gruntfile示例](http://gruntjs.com/sample-gruntfile/)。
+这个指南解释使用`Gruntfile`时如何为你的项目配置任务。如果你还不知道`Gruntfile`是什么，请先阅读[新手上路](docs/configuring-tasks.html)指南，然后参考[Gruntfile实例](http://gruntjs.com/sample-gruntfile/)。
 
 ## Grunt配置
 
-Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定。这个配置主要都是一些命名任务属性(通常任务都被定义为一个对象传递给`grunt.initConfig`方法, 而任务都是作为这个对象的属性定义的)，也可以包含任意其他数据。但这些属性(其他属性)不能与你的任务所需要的属性相冲突，否则它将被忽略(一般情况下任务中的属性命名都是约定俗成的)。
+通常任务配置都是通过`grunt.initConfig`方法指定在`Gruntfile`中。这些配置信息主要是一些命名任务属性，但是理论上可以包含任意数据。只要这些属性不与任务需要的属性冲突即可，否则会被忽略。
 
-此外，由于这本身就是JavaScript，因此你不仅限于使用JSON；你可以在这里使用任何有效的JavaScript。必要的情况下，你甚至可以以编程的方式生成配置(比如通过其他的程序生成一个或多个任务配置)。
+此外，由于`Gruntfile`本身就是JavaScript，因此你不仅限于使用JSON；在这里可以使用任意有效的JavaScript。在必要的情况下，也可以使用编程的方式生成配置信息。
 
     grunt.initConfig({
         concat: {
-            //这里是concat任务的配置信息
+            // 这里是concat任务的配置信息
         },
         uglify: {
-            //这里是uglify任务的配置信息
+            // 这里是uglify任务的配置信息
         },
-        //任意非任务特定属性
+        // 非任务特定的属性
         my_property: 'whatever',
         my_src_file: ['foo/*.js', 'bar/*.js']
     });
     
 ## 任务配置和目标
 
-当运行一个任务时，Grunt会自动查找配置对象中的同名属性。多个任务可以有多个配置，每个任务可以使用任意的命名'targets'来定义多个任务目标。在下面的例子中，`concat`任务有名为`foo`和`bar`两个目标，而`uglify`任务仅仅只有一个名为`bar`目标。
+当一个任务运行时，Grunt会查找同名属性之下的配置信息。多个任务可以有多个配置，使用任意命名的"target"定义不同的任务即可。下面有一个例子，`concat`任务有`foo`和`bar`两个目标(targets)，而`uglify`任务只有一个`bar`目标。
 
     grunt.initConfig({
         concat: {
@@ -40,22 +40,22 @@ Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定
         }
     });
     
-指定一个像`grunt concat:foo`或者`grunt concat:bar`的任务和目标只会处理指定的任务目标配置，而运行`grunt concat`将遍历所有的(定义在`concat`任务中的)目标并依次处理。注意，如果一个任务使用[grunt.renameTask](https://github.com/gruntjs/grunt/wiki/grunt#wiki-grunt-renameTask)重命名过，Grunt将在配置对象中查找新的任务名称属性。
+像`grunt concat:foo`或者`grunt concat:bar`这样同时指定任务和目标时Grunt只会处理指定目标的配置，而运行`grunt concat`命令时，它会遍历所有定义在任务中的目标，然后依次处理每个目标。注意，如果任务使用[grunt.task.renameTask](http://gruntjs.com/grunt.task#grunt.task.renametask)重命名过，Grunt会在配置对象中使用新的任务名查找属性。
 
 ## options
 
-在一个任务配置中，`options`属性可以用来指定覆盖属性的内置默认值。此外，每一个任务目标中更具体的目标都可以拥有一个`options`属性。目标级的选项将会覆盖任务级的选项(就近原则————`options`离目标越近,其优先级越高)。
+在任务配置内，`options`属性可以用来重写内置选项的默认值。此外，任务的每个目标也有一个用于该目标的`options`属性。而目标级的选项会自动覆盖任务级的同名选项配置。
 
 `options`对象是可选，如果不需要，可以省略。
 
     grunt.initConfig({
         concat: {
             options: {
-                // 这里是任务级的Options，覆盖任务的默认值 
+                // 这里是任务级的Options，可以用来覆盖任务的默认值 
             },
             foo: {
                 options: {
-                    // 这里是'foo'目标的options，它会覆盖任务级的options.
+                    // 这里是'foo'目标的options，它可以用来覆盖任务级的options.
                 }
             },
             bar: {
@@ -66,25 +66,20 @@ Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定
     
 ## 文件
 
-由于大多数的任务执行文件操作，Grunt有一个强大的抽象声明说明任务应该操作哪些文件。这里有好几种定义**src-dest**(源文件-目标文件)文件映射的方式，都提供了不同程度的描述和控制操作方式。任何一种多任务(包含多个任务目标的任务)都能理解下面的格式，所以你只需要选择满足你需求的格式就行。
+因为大多数的任务都是执行文件操作，Grunt提供了一个强大的抽象说明来描述任务应该操作哪些文件。这里有好几种定义**src-dest**（源文件-目标文件）文件映射的方式，都提供了不同程度的描述和操作文件操作功能。所有以下格式任意多任务配置都能理解，因此选择满足需求的格式即可。
 
-所有的文件格式都支持`src`和`dest`属性，此外"Compact"[简洁]和"Files Array"[文件数组]格式还支持以下一些附加的属性：
+所有的文件格式都支持设置`src`和`dest`，此外"Compact"[简洁]和"Files Array"[文件数组]格式还支持一些额外的属性：
 
-+ `filter` 它通过接受任意一个有效的[fs.Stats方法名](http://nodejs.org/docs/latest/api/fs.html#fs_class_fs_stats)或者一个函数来匹配`src`文件路径并根据匹配结果返回`true`或者`false`。
-
-+ `nonull` 当一个匹配没有被检测到时，它返回一个包含模式自身的列表。否则，如果没有任何匹配项时它返回一个空列表。结合Grunt的`--verbore`标志, 这个选项可以帮助用来调试文件路径的问题。
-
-+ `dot` 它允许模式模式匹配句点开头的文件名，即使模式并不明确文件名开头部分是否有句点。
-
-+ `matchBase` 如果设置这个属性，缺少斜线的模式(意味着模式中不能使用斜线进行文件路径的匹配)将不会匹配包含在斜线中的文件名。 例如，a?b将匹配`/xyz/123/acb`但不匹配`/xyz/acb/123`。
-
-+ `expand` 处理动态的`src-dest`文件映射，更多的信息请查看["动态构建文件对象"](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically)。
-
-+ 其他的属性将作为匹配项传递给底层的库。在[node-glob](https://github.com/isaacs/node-glob)和[minimatch](https://github.com/isaacs/minimatch)文档中可以查看更多选项。
+- `filter`  使用一个有效的[fs.Stats方法名](http://nodejs.org/docs/latest/api/fs.html#fs_class_fs_stats)或者一个函数来传递匹配的`src`文件路径，它返回`true`或`false`。
+- `nonull` 如果设置这个选项为`true`，操作将会包含非匹配模式（译注：这句文档没理解）。结合Grunt的`--verbose`标志，这个选项对调试文件路径问题很有帮助。
+- `dot`允许模式匹配以点好开头的文件名，即使模式不确定文件名开头是否有句点。
+- `matchBase` 如果设置了设个选项，如果文件路径包含斜线，而不带斜线的匹配模式将会匹配紧邻基础名称的路径。比如，a?b能匹配路径`/xyz/123/acb`，而不能匹配`/xyz/acb/123`。
+- `expand` 处理动态src-dest文件映射，更多的信息请查看["动态构建文件对象"](http://gruntjs.com/configuring-tasks#building-the-files-object-dynamically)。
+- 其他的属性将作为匹配项传递给底层的库。在[node-glob](https://github.com/isaacs/node-glob)和[minimatch](https://github.com/isaacs/minimatch)文档中可以查看更多选项。
 
 ### 简洁格式
 
-这种形式允许每个目标对应一个**src-dest**文件映射。通常情况下它用于只读任务，比如[grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint), 它就值需要一个单一的`src`属性，而不需要关联的`dest`选项. 这种格式还支持为每个`src-dest`文件映射指定附加属性。
+这种形式允许每个目标对应一个**src-dest**文件映射。通常情况下它用于只读任务，比如[grunt-contrib-jshint](https://github.com/gruntjs/grunt-contrib-jshint), 它就只需要一个单一的`src`属性，而不需要关联的`dest`选项. 这种格式还支持为每个`src-dest`文件映射指定附加属性。
 
     grunt.initConfig({
         jshint: {
@@ -102,7 +97,7 @@ Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定
     
 ### 文件对象格式
 
-这种形式支持每个任务目标对应多个`src-dest`形式的文件映射，属性名就是目标文件，源文件就是它的值(源文件列表则使用数组格式声明)。可以使用这种方式指定数个`src-dest`文件映射， 但是不能够给每个映射指定附加的属性。
+这种形式支持每个任务目标对应多个`src-dest`形式的文件映射，属性名就是目标文件，源文件就是它的值(源文件列表则使用数组格式声明)。可以使用这种方式指定多个`src-dest`文件映射， 但是不能够给每个映射指定附加的属性。
 
     grunt.initConfig({
         concat: {
@@ -155,7 +150,7 @@ Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定
     
 ### 自定义过滤函数
 
-`filter`属性可以给你的目标文件提供一个更高级的详细帮助信息。只需要使用一个有效的[fs.Stats方法名](http://nodejs.org/docs/latest/api/fs.html#fs_class_fs_stats)。下面的配置仅仅清理一个与模式匹配的真实的文件：
+`filter`属性可以给你的目标文件提供一个更高级的详细帮助信息。只需要使用一个有效的[fs.Stats方法名](http://nodejs.org/docs/latest/api/fs.html#fs_class_fs_stats)。下面的配置只会清理一个与模式匹配的真实的文件：
 
     grunt.initConfig({
         clean: {
@@ -166,7 +161,7 @@ Grunt的任务配置都是在你Gruntfile中的`grunt.initConfig`方法中指定
         }
     });
     
-或者创建你自己的`filter`函数根据文件是否匹配来返回`true`或者`false`。下面的例子将仅仅清理一个空目录：
+或者创建你自己的`filter`函数根据文件是否匹配来返回`true`或者`false`。下面的例子只会清理空目录：
 
     grunt.initConfig({
         clean: {
