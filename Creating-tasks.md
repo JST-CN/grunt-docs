@@ -1,20 +1,20 @@
 # 创建任务
 
-任务是Grunt的基本组成。例如你常用的工具：`jshint`和`nodeunit`。当你每次运行Grunt时，你可以指定它(Grunt)运行一个或者多个任务，通过这些任务来告诉Grunt你想要它做什么事情。
+任务是Grunt的面包和奶油。也是你经常做的事情，比如`jshint`或者`nodeunit`。每当运行Grunt是，你都会指定要运行的一个或者多个任务用来告诉Grunt你要干什么。
 
-如果你没有指定任务，但是定义了一个名为"default"的任务，那么该任务(default任务)将默认运行(不要惊讶，顾名思义它代表默认会运行哪些定义好的任务)。
+如果没有指定任务，Grunt会定义一个叫做“default”的任务，并且默认会运行这个任务（不要惊讶）。
 
 ## 别名任务
 
-如果指定了一个任务列表，新任务(名)便是其他一个或多个任务的别名。每当运行'别名任务'时，指定在`taskList`中的每个任务(指在`grunt.initConfig()`中定义的任务)都会按照指定它们的顺序运行。`taskList`参数必须是一个任务数组。其语法如下：
+如果指定了一个任务列表，那么这个新的任务便是一个或者多个其他任务的别名。每当这个“别名”任务运行时，每个制定在`taskList`中的任务都会按照指定的顺序运行。`taskList`的参数必须是一个任务数组。
 
     grunt.registerTask(taskName, [description, ] taskList);
     
-这里有一个例子，它定义了一个名为'default'别名任务，如果运行Grunt时没有指定任何任务，它将自动运行'jshint'，'qunit'，'concat'和'uglify'任务。
+下面这个例子中的别名任务定义了一个“default”任务，如果执行Grunt时没指定任务，这里的“jshint”，“qunit”，“concat”和“uglify”这几个任务将会自动运行。
 
     grunt.registerTask('default', ['jshint','qunit','concat','uglify']);
     
-可以给任务指定参数。在下面的例子中，别名任务'dist'会运行'concat'和'uglify'这两个任务，并且每个任务都带有一个'dist'参数：
+还可以给任务指定参数。在下面的例子中，别人任务“dist”会运行“concat”和“uglify”任务，每个任务都有一个“dist”参数：
 
     grunt.registerTask('dist', ['concat:dist', 'uglify:dist']);
     
